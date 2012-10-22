@@ -1,0 +1,17 @@
+Example Consumpion Documentation
+====================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   app
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
