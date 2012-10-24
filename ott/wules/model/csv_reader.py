@@ -1,9 +1,8 @@
 import os
 import csv
-import logging
-logging.basicConfig()
-log = logging.getLogger(__file__)
-log.setLevel(logging.INFO)
+
+from ott.wules.utils.logger import *
+
 
 class Csv(object):
     csv_file = None

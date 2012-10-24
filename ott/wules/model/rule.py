@@ -1,8 +1,7 @@
 import os
-import csv
 
 from ott.wules.utils.logger import *
-from ott.wules.model.csv_reader import *
+from ott.wules.model.csv_reader import Csv
 
 class Rules(Csv):
 
