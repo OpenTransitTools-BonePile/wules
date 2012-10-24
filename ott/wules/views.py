@@ -8,26 +8,36 @@ from pyramid.config import Configurator
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
 
-@view_config(route_name='list', renderer='list.mako')
-def list_view(request):
-    #
-    #  view with mako
-    #
-    log.info("entering list_view")
-    return {'tasks': []}
+@view_config(route_name='about', renderer='about.mako')
+def about(request):
+    '''
+      about view with mako
+    '''
+    log.info("entering about")
+    return {}
 
 
-@view_config(route_name='vote')
-def vote_view(request):
-    #
-    #  vote recording via SqlAlchemy
-    #
-    vote_value = get_first_param(request, 'vote_value')
-    user_id = get_first_param(request, 'user_id')
-    stop_id = get_first_param(request, 'stop_id')
-    log.info("{0}, {1}, {2}".format(vote_value, user_id, stop_id))
+@view_config(route_name='admin', renderer='admin.mako')
+def admin(request):
+    '''
+      admin view with mako
+    '''
+    log.info("entering admin")
+    return {}
 
-    return Response('OK')
+
+@view_config(route_name='content', renderer='content.mako')
+def content(request):
+    '''
+      content view with mako
+    '''
+    log.info("entering content")
+
+    id = get_first_param(request, 'id')
+    rule = get_first_param(request, 'rule')
+    log.info("{0}, {1}".format(id, rule))
+
+    return {}
 
 
 @view_config(context='pyramid.exceptions.NotFound', renderer='notfound.mako')
@@ -40,10 +50,9 @@ def notfound_view(self):
 
 def make_views(config):
     # routes setup
-    config.add_route('list', '/')
-    config.add_route('vote', '/vote')
-    config.add_route('new', '/new')
-    config.add_route('close', '/close/{id}')
+    config.add_route('about',  '/')
+    config.add_route('admin',  '/admin')
+    config.add_route('content', '/content')
     config.scan()
 
 
