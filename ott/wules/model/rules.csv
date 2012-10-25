@@ -1,3 +1,4 @@
 AGENCY,MODE,DOW,DOM,MOY,START_TIME,END_TIME,CONTENT_URL
 TriMet;C-TRAN, BUS,  M-F;S;U, 24-5,10-3,,, http://a.b.com
 TriMet,        RAIL, F;S,     ,,,,         http://a.b.com
+

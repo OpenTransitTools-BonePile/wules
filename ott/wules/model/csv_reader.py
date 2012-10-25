@@ -8,6 +8,7 @@ class Csv(object):
     csv_file = None
     reader = None
     file = None
+    raw = []
 
     def __init__(self, uri="rules.csv"):
         log.info('CSV read')
@@ -27,6 +28,7 @@ class Csv(object):
         '''
         log.info("open rules " + self.csv_file)
         if 'http' in self.csv_file:
+            log.warn('TODO read url for rules...')
             pass
         else:
             self.file = open(self.csv_file, 'r')
@@ -39,6 +41,14 @@ class Csv(object):
         if file is not None:
             self.file.close()
             self.file = None
+
+    def read(self):
+        self.raw = []
+        self.open()
+        for row in self.reader:
+            self.raw.append(row)
+        self.close()
+        return self.raw
 
 
 def main():
