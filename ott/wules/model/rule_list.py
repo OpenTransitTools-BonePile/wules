@@ -18,6 +18,24 @@ class RuleList(Csv):
             rule = Rule(r, i+2)      # i+2 is the line number in the .csv file, accounting for the header
             self.rules.append(rule)
 
+    def find(self, agency=None, mode=None, routes=None, date=None, time=None, max_hits=3):
+        '''
+        '''
+        ret_rules = []
+        hits = self.rules
+
+        # filter 1: find agency rules...
+        hits = self.filter(hits, Rule.AGENCY, 'TriMet')
+
+
+    def filter(self, key, value):
+        hits = []
+        for r in rules:
+            if r.test_rule(''):
+                hits.append(r)
+        return hits
+
+
 def main():
     r = RuleList()
     r.update_rules()
