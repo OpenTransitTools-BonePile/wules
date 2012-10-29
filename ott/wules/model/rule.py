@@ -8,6 +8,7 @@ from ott.wules.utils.logger import *
 class Rule():
     AGENCY       = 'agency'
     MODE         = 'mode'
+    ROUTES       = 'route'
     DOW          = 'dow'
     DOM          = 'dom'
     MOY          = 'moy'
@@ -34,6 +35,7 @@ class Rule():
 
         # step 2: find rule elements
         self.agency          = self.get_param(Rule.AGENCY)
+        self.mode            = self.get_param(Rule.MODE)
         self.start_time      = self.get_param(Rule.START_TIME)
         if self.start_time is not None and self.start_time.find(' ') > 0:
             self.start_time = self.time.replace(' ', '')
@@ -75,16 +77,24 @@ class Rule():
             and it's a string, and it's value matches
         '''
         ret_val = False
-        a = getattr(self, key)
-        log.info("{0} = getattr({1})".format(a, key))
-        if (
-            a is None 
-            or type(a) is not str 
-            or value in a
-        ):
-            ret_val = True
-            log.info("key '{0}' has value '{1}' (and might matche via this regexp '{2}')".format(key, value, regexp))
+        try:
+            a = getattr(self, key)
+            log.info("{0} = getattr({1})".format(a, key))
+            if (
+                a is None
+                or type(a) is not str 
+                or value in a
+            ):
+                ret_val = True
+                log.info("key '{0}' has value '{1}' (and might matche via this regexp '{2}')".format(key, value, regexp))
+        except:
+            log.warn("class doesn't have an element named '{0}'".format(key))
+            ret_val = True # don't filter if the class lacks the element (only limit on value)
+
 
         return ret_val
 
+
+    def get_attribute(self, key):
+        return ret_val
 

@@ -25,13 +25,25 @@ class RuleList(Csv):
 
         # filter 1: find agency rules...
         hits = self.rules
-        hits = self.filter(hits, Rule.AGENCY, 'TriMet')
-        ret_rules = hits
+        hits = self.filter(hits, Rule.AGENCY, agency)
+        hits = self.filter(hits, Rule.MODE,   mode)
+        hits = self.filter(hits, Rule.ROUTES, routes)
+        hits = self.filter_date(hits, date)
+        hits = self.filter_time(hits, time)
+
+        # max filter
+        # (note ... might do a rule priority sort here)
+        for h in hits:
+            if len(ret_rules) >= max_hits: 
+                break
+            ret_rules.append(h)
 
         return ret_rules
 
 
     def filter(self, rules, key, value):
+        '''
+        '''
         hits = []
         for r in rules:
             if r.has_value(key, value):
@@ -39,10 +51,25 @@ class RuleList(Csv):
         return hits
 
 
+    def filter_date(self, rules, date):
+        '''
+        '''
+        hits = []
+        hits = rules
+        return hits
+
+
+    def filter_time(self, rules, time):
+        '''
+        '''
+        hits = []
+        hits = rules
+        return hits
+
 def main():
     r = RuleList()
     r.update_rules()
-    for z in r.find():
+    for z in r.find('TriMet', 'RAIL'):
         print z.__dict__
 
 
