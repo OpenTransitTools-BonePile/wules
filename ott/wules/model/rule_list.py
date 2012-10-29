@@ -22,16 +22,19 @@ class RuleList(Csv):
         '''
         '''
         ret_rules = []
-        hits = self.rules
 
         # filter 1: find agency rules...
+        hits = self.rules
         hits = self.filter(hits, Rule.AGENCY, 'TriMet')
+        ret_rules = hits
+
+        return ret_rules
 
 
-    def filter(self, key, value):
+    def filter(self, rules, key, value):
         hits = []
         for r in rules:
-            if r.test_rule(''):
+            if r.has_value(key, value):
                 hits.append(r)
         return hits
 
@@ -39,7 +42,7 @@ class RuleList(Csv):
 def main():
     r = RuleList()
     r.update_rules()
-    for z in r.rules:
+    for z in r.find():
         print z.__dict__
 
 

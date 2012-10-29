@@ -75,14 +75,16 @@ class Rule():
             and it's a string, and it's value matches
         '''
         ret_val = False
-        a = getattr(key)
+        a = getattr(self, key)
+        log.info("{0} = getattr({1})".format(a, key))
         if (
             a is None 
             or type(a) is not str 
-            or a is value
+            or value in a
         ):
             ret_val = True
-            log.info("key '{1}' has value '{2}' and matches via this regexp '{3}'".format(key, value, regexp))
+            log.info("key '{0}' has value '{1}' (and might matche via this regexp '{2}')".format(key, value, regexp))
+
         return ret_val
 
 
