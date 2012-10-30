@@ -31,64 +31,85 @@ class Rule():
         self.rule_csv        = dict((k.lower().strip(), v.strip()) for k,v in rule_csv.iteritems()) #lowercase dict keys
         self.url             = None
         self.is_valid        = False
-        self.content_url()
 
-        # step 2: find rule elements
-        self.agency          = self.get_param(Rule.AGENCY)
-        self.mode            = self.get_param(Rule.MODE)
-        self.start_time      = self.get_param(Rule.START_TIME)
-        if self.start_time is not None and self.start_time.find(' ') > 0:
-            self.start_time = self.time.replace(' ', '')
+        # step 2: assign the csv values to this class as new attributes
+        self.__dict__.update(self.rule_csv)
 
-        self.note = None
-        if Rule.NOTE in rule_csv:
-            self.note = self.get_param(Rule.NOTE)
+        # step 3: fix certain values (if they exist
+        self.fix_time()
+        self.fix_dates()
+
+        # step 4: validate this Rule object
+        self.check_rule()
 
 
-    def content_url(self):
-        '''
-           find url or content url from rule
-        '''
-        url = self.get_param(Rule.CONTENT_URL)
-        if url is None:
-            url = self.get_param('url')
-        if url is not None:
-            self.is_valid = True
-            self.url = url
-
-
-    def get_param(self, name, def_val=None):
+    def fix_time(self):
         ''' 
         '''
-        ret_val = def_val
+        pass
+
+
+    def fix_dates(self):
+        ''' 
+        '''
+        pass
+
+
+    def check_rule(self):
+        ''' check the rule for valid data (like content_url values), and then assign a validity flag to the Rule object
+        '''
+        # step 1: make sure we have a valid content_url parameter (flexible to be named url in .csv file)
+        url = self.get_value(Rule.CONTENT_URL)
+        if url is None:
+            url = self.get_value('url')
+            self.__dict__[Rule.CONTENT_URL] = url
+
+        # step 2: if no url to our content, then our rule is invalid
+        if url is not None:
+            self.is_valid = True
+
+        return self.is_valid
+
+
+    def get_value(self, key):
+        ''' return value of class element key
+        '''
+        ret_val = None
         try:
-            p = self.rule_csv[name]
-            if p is not None and len(p) > 0:
-                ret_val = p.strip()
+            #ret_val = getattr(self, key)
+            ret_val = self.__dict__[key]
+            log.info("{0} == getattr({1}) ?".format(ret_val, key))
         except:
-            log.info("'{0}' was not found as an index in record {1}".format(name, self.rule_csv))
+            log.info("get_value: class doesn't have an element named '{0}'".format(key))
 
         return ret_val
 
 
-    def has_value(self, key, value, regexp=''):
+    def has_value(self, key, search_value, regexp=None):
         ''' 
             return true if the key exists in this class,  
             and it's a string, and it's value matches
         '''
         ret_val = False
+        val = None
         try:
-            a = getattr(self, key)
-            log.info("{0} = getattr({1})".format(a, key))
+            val = self.get_value(key)
+
             if (
-                a is None
-                or type(a) is not str 
-                or value in a
+                val is None
+                or type(val) is not str 
+                or search_value in val
             ):
                 ret_val = True
-                log.info("key '{0}' has value '{1}' (and might matche via this regexp '{2}')".format(key, value, regexp))
+
+            # log explicit rule matching 
+            msg = "has_value: match is {ret_val} given key '{key}' has search value of '{search_value}', and Rule value of '{val}'"
+            if regexp != None:
+                msg = msg + ", considering regexp '{regexp}'"
+            log.info(msg.format(**locals()))
+
         except:
-            log.warn("class doesn't have an element named '{0}'".format(key))
+            log.info("has_value: class doesn't have an element named '{0}'".format(key))
             ret_val = True # don't filter if the class lacks the element (only limit on value)
 
 

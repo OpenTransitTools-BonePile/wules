@@ -9,4 +9,5 @@ parts
 *.egg-info
 *.pyc
 *.db
+*.bak
 *~
