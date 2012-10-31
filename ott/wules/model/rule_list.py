@@ -27,8 +27,6 @@ class RuleList(Csv):
     def find(self, max_hits=3, **kwargs):
         ''' agency=None, mode=None, routes=None, date=None, time=None, max_hits=3
         '''
-        ret_rules = []
-
         # filter 1: 
         hits = self.rules
         for k,v in kwargs.iteritems():
@@ -42,6 +40,8 @@ class RuleList(Csv):
 
         # max filter
         # (note ... might do a rule priority sort here)
+        ret_rules = []
+        log.info("num of hits {0}".format(len(hits)))
         for h in hits:
             if len(ret_rules) >= max_hits: 
                 break
@@ -81,7 +81,7 @@ def main():
     r.update_rules()
     #for z in r.find(Rule.agency='TriMet', Rule.mode='RAIL'):
     for z in r.find(5, agency='TriMet', mode='RAIL', language='en', time='5:30pm'):
-        print z.__dict__
+        print "RESULT: {0}".format(z.__dict__)
 
 
 if __name__ == '__main__':

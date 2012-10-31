@@ -1,15 +1,14 @@
-
 """
     Simple robust time and date parsing.
     
     Note: Follows the Australian standard, dd/mm/yyyy.
           Americans should replace '%d %m %Y' with '%m %d %Y' and '%d %m %y' with '%m %d %y' below.
-    
+
     Routines will either
      - return a date or time
      - return None if the string is empty
      - throw a ValueError
-     
+
     TODO: Handle 1st 2nd 3rd etc
 
     This file is placed in the public domain by Paul Harrison, 2006
@@ -82,7 +81,7 @@ def parse_date(string):
             return datetime.date(year, result.tm_mon, result.tm_mday)
         except ValueError:
             pass
-            
+
     raise ValueError()
 
 

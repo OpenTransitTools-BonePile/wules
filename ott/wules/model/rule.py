@@ -115,6 +115,7 @@ class Rule():
             if (
                 val is None
                 or type(val) is not str 
+                or len(val)  is 0
                 or search_value in val
             ):
                 ret_val = True
