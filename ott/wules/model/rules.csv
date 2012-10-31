@@ -1,4 +1,6 @@
-AGENCY,MODE,DOW,DOM,MOY,START_TIME,END_TIME,url
-TriMet;C-TRAN, BUS,  M-F;S;U, 24-5,10-3,,, http://a.b.com
-TriMet,        RAIL, F;S,     ,,,,         http://a.b.com
-
+AGENCY,LANGUAGE,MODE,DOW,DOM,MOY,START_TIME,END_TIME,TITLE,CONTENT,URL
+# English
+TriMet;C-TRAN,en, BUS,  M-F;S;U, 24-5,10-3,,,TITLE,CONTENT,http://a.b.com
+TriMet,       en, RAIL, F;S,     ,,,,        TITLE,CONTENT,http://a.b.com
+# Spanish
+TriMet,       es  , RAIL, F;S,     ,,,,        TITLE,CONTENT,http://a.b.com

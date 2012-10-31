@@ -14,7 +14,7 @@ class Rule():
     MOY          = 'moy'
     START_TIME   = 'start_time'
     END_TIME     = 'end_time'
-    CONTENT_URL  = 'content_url'
+    URL          = 'url'
     PRIORITY     = 'priority'
     NOTE         = 'note'
 
@@ -22,25 +22,40 @@ class Rule():
         ''' {
             RULE parmas:
               ''
-              AGENCY,MODE,DOW,DOM,MOY,START_TIME,END_TIME,CONTENT_URL,PRIORITY,NOTE
             }
         '''
 
         # step 1: initialize rule meta data
         self.csv_line_number = line_number
-        self.rule_csv        = dict((k.lower().strip(), v.strip()) for k,v in rule_csv.iteritems()) #lowercase dict keys
-        self.url             = None
+        self.rule_csv        = self.process_csv(rule_csv)
         self.is_valid        = False
 
-        # step 2: assign the csv values to this class as new attributes
-        self.__dict__.update(self.rule_csv)
+        if self.rule_csv is not None:
+            # step 2: fix certain values (if they exist
+            self.fix_time()
+            self.fix_dates()
 
-        # step 3: fix certain values (if they exist
-        self.fix_time()
-        self.fix_dates()
+            # step 3: validate this Rule object
+            self.check_rule()
 
-        # step 4: validate this Rule object
-        self.check_rule()
+
+    def process_csv(self, csv):
+        '''
+        '''
+        ret_val = None
+        try:
+            #step 1: lowercase dict keys
+            ret_val = dict((k.lower().strip(), v.strip()) for k,v in csv.iteritems())
+
+            # step 2: assign the csv values to this class as new attributes
+            log.info ("before {0}".format(self.__dict__))
+            self.__dict__.update(ret_val)
+            log.info ("after {0}".format(self.__dict__))
+
+        except:
+            log.info("EXCEPTION: process_csv: csv '{0}' lacks key/values".format(csv))
+
+        return ret_val
 
 
     def fix_time(self):
@@ -56,17 +71,19 @@ class Rule():
 
 
     def check_rule(self):
-        ''' check the rule for valid data (like content_url values), and then assign a validity flag to the Rule object
+        ''' check the rule for valid data (like url values), and then assign a validity flag to the Rule object
         '''
-        # step 1: make sure we have a valid content_url parameter (flexible to be named url in .csv file)
-        url = self.get_value(Rule.CONTENT_URL)
+        # step 1: make sure we have a valid url parameter (flexible to be named content_url in .csv file)
+        url = self.get_value(Rule.URL)
         if url is None:
-            url = self.get_value('url')
-            self.__dict__[Rule.CONTENT_URL] = url
+            url = self.get_value('content_url')
+            self.__dict__[Rule.URL] = url
 
         # step 2: if no url to our content, then our rule is invalid
         if url is not None:
             self.is_valid = True
+        else:
+            log.info("check_rules() self.__dict__ = {0}".format(self.__dict__))
 
         return self.is_valid
 
@@ -80,7 +97,7 @@ class Rule():
             ret_val = self.__dict__[key]
             log.info("{0} == getattr({1}) ?".format(ret_val, key))
         except:
-            log.info("get_value: class doesn't have an element named '{0}'".format(key))
+            log.info("EXCEPTION: get_value: class doesn't have an element named '{0}'".format(key))
 
         return ret_val
 
@@ -109,7 +126,7 @@ class Rule():
             log.info(msg.format(**locals()))
 
         except:
-            log.info("has_value: class doesn't have an element named '{0}'".format(key))
+            log.info("EXCEPTION: has_value: class doesn't have an element named '{0}'".format(key))
             ret_val = True # don't filter if the class lacks the element (only limit on value)
 
 
