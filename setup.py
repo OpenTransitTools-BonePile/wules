@@ -1,10 +1,7 @@
 from setuptools import setup, find_packages
 import sys
 
-#
-# required eggs
-#
-install_requires = [
+required_eggs = [
     'pyramid',
 ]
 
@@ -32,6 +29,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=install_requires,
+    install_requires=required_eggs
     extras_require=dict(dev=dev_extras)
 )
