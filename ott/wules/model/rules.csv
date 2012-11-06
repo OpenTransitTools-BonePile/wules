@@ -2,6 +2,6 @@ AGENCY,LANGUAGE,  MODE, DOW,     DOM, MOY,START_TIME,END_TIME,TITLE,CONTENT,URL
 # English
 "TriMet;C-TRAN,en, BUS,  M-F;S;U, 24-5,10-3,,,                TITLE,CONTENT,http://a.b.com"
 "TriMet,       en, RAIL, F;S,     ,,,,                        TITLE,CONTENT,http://a.b.com"
-TriMet,        en,     , M-F,     24-5,10-3,11am,2:30pm,TITLE,CONTENT,http://a.b.com
+TriMet,        en,     , M;W;F,   5-4,10-3,11am,2:30pm,TITLE,CONTENT,http://a.b.com
 # Spanish
 "TriMet,       es, RAIL, F;S,     ,,,,        TITLE,CONTENT,http://a.b.com"

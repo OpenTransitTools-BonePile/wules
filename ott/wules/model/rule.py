@@ -61,13 +61,90 @@ class Rule():
     def fix_time(self):
         ''' 
         '''
-        pass
+        
 
 
     def fix_dates(self):
-        ''' 
+        ''' various date input / parsing
+
+            days_of_week bit-mask ... where dow[0] = Monday and dow[6] = Sunday, and True means show on those days
+            valid specs for dow are M-F;M-S;M-U;M;T;W;TH;F;S;U 
+
+            days_of_month is for a 31 day month, with true, false
         '''
-        pass
+        self.days_of_week=[False]*7
+        if self.dow is not None:
+            if 'M-'  in self.dow: self.days_of_week[0:5] = [True]*5
+            if 'M'  in self.dow: self.days_of_week[0] = True
+            if 'T'  in self.dow: self.days_of_week[1] = True
+            if 'W'  in self.dow: self.days_of_week[2] = True
+            if 'TH' in self.dow: self.days_of_week[3] = True
+            if 'F'  in self.dow: self.days_of_week[4] = True
+            if 'S'  in self.dow: self.days_of_week[5] = True
+            if '-U' in self.dow: self.days_of_week[5] = True
+            if 'U'  in self.dow: self.days_of_week[6] = True
+
+
+        # we get a range of days of the month, and then 
+        # (e.g., 22-7 means the last 9 days of the month, and the first week of the next month)
+        self.days_of_month=[False]*32
+        rngs=self.parse_range(self.dom, len(self.days_of_month))
+        self.process_ranges(rngs, self.days_of_month, True)
+
+        # we get a range of days of the month, and then 
+        # (e.g., 22-7 means the last 9 days of the month, and the first week of the next month)
+        self.months_of_year=[False]*13
+        rngs=self.parse_range(self.moy, len(self.months_of_year))
+        self.process_ranges(rngs, self.months_of_year, True)
+
+        log.info("day of week {0}; days of month {1}; months of year {2}".format(self.days_of_week, self.days_of_month, self.months_of_year))
+
+
+    # TODO: move to int_utility
+    def process_ranges(self, ranges, value_list, value):
+        ''' given a list of ranges, each of which are ranges of indexes into the value_list, assign the value
+        '''
+        try:
+            max = len(value_list)
+            for r in ranges:
+                for i in r:
+                    if i < max:
+                        value_list[i] = value
+        except:
+            log.info("EXCEPTION: process_ranges({0},{1},{2})".format(ranges, value_list, value))
+
+
+    # TODO: move to int_utility
+    def parse_range(self, r, max):
+        ''' @return: array of ranges (either one or two ranges), based on string inputs like: 15, 1-4, or 22-5
+                     where 15 would be single value range [15], 1-4 would be [1,2,3,4] and 22-5 (given max 31)
+                     would be two ranges ala [22,23,24...31] and [0,1,2,3,4,5]
+            @see: processes_ranges()  
+        '''
+        ret1 = None
+        ret2 = None
+        try:
+            i = r.split('-')
+            t = max
+            f = int(i[0])
+            if f > max or f < 0:
+                f = max
+            if len(i) is 2:
+                t = int(i[1])
+                if t > max or t < 0:
+                    t = max
+                if f > t:
+                    ret1 = range(f, max)
+                    ret2 = range(0, t+1)
+                else:
+                    ret1 = range(f, t+1)
+            else:
+                ret1 = range(f, f+1)
+        except:
+            log.info("EXCEPTION: parse_range: {0}".format(r))
+
+        log.info("range: {0} = {1} ... {2}".format(r, ret1, ret2))
+        return ret1, ret2
 
 
     def check_rule(self):
@@ -129,7 +206,6 @@ class Rule():
         except:
             log.info("EXCEPTION: has_value: class doesn't have an element named '{0}'".format(key))
             ret_val = True # don't filter if the class lacks the element (only limit on value)
-
 
         return ret_val
 
