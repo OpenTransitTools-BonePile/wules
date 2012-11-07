@@ -3,6 +3,7 @@
 '''
 import os
 from ott.wules.utils.logger import *
+from ott.wules.utils.parse_datetime import *
 
 
 class Rule():
@@ -61,7 +62,15 @@ class Rule():
     def fix_time(self):
         ''' 
         '''
-        
+        try:
+            if self.start_time is not None:
+                self.start_time = parse_time(self.start_time)
+            if self.end_time is not None:
+                self.end_time = parse_time(self.end_time)
+
+            log.info("fix_time(): start = '{0}' end = {1}".format(self.start_time, self.end_time))
+        except:
+            log.info("EXCEPTION: fix_time() ...")
 
 
     def fix_dates(self):
