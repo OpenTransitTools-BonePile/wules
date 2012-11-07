@@ -33,8 +33,8 @@ class Rule():
 
         if self.rule_csv is not None:
             # step 2: fix certain values (if they exist
-            self.fix_time()
-            self.fix_dates()
+            self.parse_time()
+            self.parse_dates()
 
             # step 3: validate this Rule object
             self.check_rule()
@@ -59,7 +59,7 @@ class Rule():
         return ret_val
 
 
-    def fix_time(self):
+    def parse_time(self):
         ''' 
         '''
         try:
@@ -73,7 +73,7 @@ class Rule():
             log.info("EXCEPTION: fix_time() ...")
 
 
-    def fix_dates(self):
+    def parse_dates(self):
         ''' various date input / parsing
 
             days_of_week bit-mask ... where dow[0] = Monday and dow[6] = Sunday, and True means show on those days
@@ -218,6 +218,39 @@ class Rule():
 
         return ret_val
 
+
+    def within_rule_dates(self, date):
+        '''
+        '''
+        explain=''
+        fail=False
+
+        # rule for day of week
+        dow=True
+        if self.dow != None:
+             i = 1
+             dow = self.days_of_week[i]
+             if dow is False:
+                 fail=True
+                 explain += '\nDay of week failed for rule={0}, input dow={1} (for date {3}'.format(dow, i, date)
+        
+        moy=True
+        #self.months_of_year
+
+        dom=True
+        #self.days_of_month
+
+        if fail:
+             log.info("check date")
+
+        return ret_val
+
+
+    def within_rule_times(self, time):
+        '''
+        '''
+        ret_val = True
+        return ret_val
 
     def get_attribute(self, key):
         return ret_val
