@@ -76,6 +76,7 @@ class RuleList(Csv):
         hits = rules
         return hits
 
+
 def main():
     r = RuleList()
     r.update_rules()

@@ -18,17 +18,16 @@ def index(request):
 def wule_information(request):
     ''' return the latest carshare positions as geojson
     '''
-    id  = get_first_param(request, 'id')
+    id = get_first_param(request, 'id')
     ret_val = None
     if id:
-        pass
+        if ret_val is None:
+            ret_val = json_message()
+        else:
+            ret_val = Response(ret_val)
     else:
         ret_val = json_message('You need to specify an "id" parameter as a request parameter')
 
-    if ret_val is None:
-        ret_val = json_message()
-
-    ret_val = Response(ret_val)
     return ret_val
 
 
@@ -68,5 +67,5 @@ def get_first_param(request, name, def_val=None):
 
 
 def json_message(msg="Something's wrong...sorry!"):
-    return {error:True, msg:msg}
+    return {'error':True, 'msg':msg}
 
