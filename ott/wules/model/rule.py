@@ -15,9 +15,10 @@ class Rule():
     MOY          = 'moy'
     START_TIME   = 'start_time'
     END_TIME     = 'end_time'
-    URL          = 'url'
     PRIORITY     = 'priority'
-    NOTE         = 'note'
+    URL          = 'url'
+    TITLE        = 'title'
+    CONTENT      = 'contetnt'
 
     def __init__(self, rule_csv, line_number):
         ''' {
@@ -253,5 +254,19 @@ class Rule():
         return ret_val
 
     def get_attribute(self, key):
+        return ret_val
+
+    def get_content_dict(self, cnt_keys=None):
+        ''' return dict of printable rule content
+        '''
+        ret_val = {}
+
+        if cnt_keys == None:
+            cnt_keys = [self.URL, self.TITLE, self.CONTENT]
+        
+        for k in cnt_keys:
+            v = self.get_value(k)
+            if v:
+                ret_val[k] = v
         return ret_val
 

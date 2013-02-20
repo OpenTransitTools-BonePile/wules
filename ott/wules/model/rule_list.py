@@ -12,7 +12,7 @@ class RuleList(Csv):
         super(Csv,self).__init__()
         self.assign_uri(uri)
         self.rules = []
-
+        self.update_rules()
 
     def update_rules(self):
         '''
@@ -50,7 +50,7 @@ class RuleList(Csv):
         return ret_rules
 
 
-    def filter(self, rules, key, value):
+    def filter(cls, rules, key, value):
         '''
         '''
         hits = []
@@ -61,7 +61,7 @@ class RuleList(Csv):
         return hits
 
 
-    def filter_date(self, rules, date):
+    def filter_date(cls, rules, date):
         '''
         '''
         hits = []
@@ -75,15 +75,3 @@ class RuleList(Csv):
         hits = []
         hits = rules
         return hits
-
-
-def main():
-    r = RuleList()
-    r.update_rules()
-    #for z in r.find(Rule.agency='TriMet', Rule.mode='RAIL'):
-    for z in r.find(5, agency='TriMet', mode='RAIL', language='en', time='5:30pm'):
-        print "RESULT: {0}".format(z.__dict__)
-
-
-if __name__ == '__main__':
-    main()
