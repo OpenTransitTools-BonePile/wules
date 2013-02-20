@@ -1,9 +1,9 @@
 from fabric.api import cd, env, run
 
-env.hosts = ['example@ares:22']
+env.hosts = ['wules@SOMESERVER:22']
 
 def deploy(version='tip'):
-    with cd('~/example/'):
+    with cd('~/wules/'):
         run('hg pull')
         run('hg up {0}'.format(version))
         run('buildout init')
