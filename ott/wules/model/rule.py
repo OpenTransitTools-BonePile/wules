@@ -18,7 +18,7 @@ class Rule():
     PRIORITY     = 'priority'
     URL          = 'url'
     TITLE        = 'title'
-    CONTENT      = 'contetnt'
+    CONTENT      = 'content'
 
     def __init__(self, rule_csv, line_number):
         ''' {

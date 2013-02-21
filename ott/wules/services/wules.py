@@ -8,7 +8,9 @@ m_rl = RuleList()
 def find(**kwargs):
     ret_val = []
 
-    rules = m_rl.find(kwargs)
+    import pdb
+    #pdb.set_trace()
+    rules = m_rl.find(**kwargs)
     if rules:
         for r in rules:
             cnt = r.get_content_dict()
@@ -31,7 +33,7 @@ def features_to_json(obj):
 
 
 def main():
-    f = find(agency='TriMet')
+    f = find(agency='TriMet',language='en', mode='RAIL')
     print f
     #for z in r.find(5, agency='TriMet', mode='RAIL', language='en', time='5:30pm'):
     #for z in r.find(

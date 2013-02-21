@@ -24,9 +24,11 @@ class RuleList(Csv):
             self.rules.append(rule)
 
 
-    def find(self, max_hits=3, **kwargs):
+    def find(self, **kwargs):
         ''' agency=None, mode=None, routes=None, date=None, time=None, max_hits=3
         '''
+        max_hits = kwargs.get('max_hits', 3)
+
         # filter 1: 
         hits = self.rules
         for k,v in kwargs.iteritems():
