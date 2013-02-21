@@ -8,25 +8,27 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from pyramid.decorator import reify
 
+import ott.wules.services.wules as wules
 
 @view_config(route_name='default_index', renderer='index.html')
 def index(request):
     return {'project': 'Wules'}
 
 
-@view_config(route_name='rule_ws', renderer='json')
-def wule_information(request):
-    ''' return the latest carshare positions as geojson
+@view_config(route_name='content_ws', renderer='json')
+def rules_content(request):
+    ''' return the content
+    import pdb
+    pdb.set_trace()
+
+
     '''
-    id = get_first_param(request, 'id')
-    ret_val = None
-    if id:
-        if ret_val is None:
-            ret_val = json_message()
-        else:
-            ret_val = Response(ret_val)
+    kw = get_kwargs(request)
+    ret_val = wules.find(**kw)
+    if ret_val:
+        ret_val = Response(ret_val)
     else:
-        ret_val = json_message('You need to specify an "id" parameter as a request parameter')
+        ret_val = json_message()
 
     return ret_val
 
@@ -48,7 +50,7 @@ def do_view_config(config):
     ''' config the different views...
     '''
     config.add_route('default_index',      '/')
-    config.add_route('rule_ws',            '/rule')
+    config.add_route('content_ws',         '/content')
 
 
 def get_first_param(request, name, def_val=None):
@@ -62,6 +64,41 @@ def get_first_param(request, name, def_val=None):
         ret_val = request.params.getone(name)
     except:
         pass
+
+    return ret_val
+
+def get_header(request, name, def_val=None):
+    ''' utility function
+
+        @return the header value...
+        @todo: make this work actually...
+    '''
+    ret_val=def_val
+    try:
+        ret_val = request.getheader(name)
+    except:
+        pass
+
+    return ret_val
+
+def get_lang(request, def_val='en'):
+    ret_val = def_val
+    l = get_header(request, '', def_val)
+    if l and len(l) >= 2:
+        ret_val = l[:2]
+    return ret_val
+
+def get_kwargs(request):
+    ''' turn request args into k/v dictionary
+        parse out language from HTTP_ACCEPT_LANGUAGE' header
+    '''
+    ret_val = {}
+    lang = get_lang(request)
+    ret_val[wules.Rule.LANGUAGE] = lang
+
+    kwargs = request.params.mixed()
+    if kwargs:
+        ret_val.update(kwargs)
 
     return ret_val
 

@@ -8,14 +8,13 @@ m_rl = RuleList()
 def find(**kwargs):
     ret_val = []
 
-    import pdb
-    #pdb.set_trace()
     rules = m_rl.find(**kwargs)
     if rules:
         for r in rules:
             cnt = r.get_content_dict()
             ret_val.append(cnt)
 
+    ret_val = features_to_json(ret_val)
     return ret_val
 
 

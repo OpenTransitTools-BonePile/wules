@@ -8,6 +8,7 @@ from ott.wules.utils.parse_datetime import *
 
 class Rule():
     AGENCY       = 'agency'
+    LANGUAGE     = 'language'
     MODE         = 'mode'
     ROUTES       = 'route'
     DOW          = 'dow'
