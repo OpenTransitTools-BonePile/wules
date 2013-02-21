@@ -1,6 +1,9 @@
 <%inherit file="base.mako"/>
 <%
-    has_rules = True if 'alerts' in locals() else False
+    has_rules = True if 'rules' in locals() else False
+    rule_list = []
+    if has_rules:
+        rule_list = rules 
 %>
 <%def name="title()">Wules Info</%def>
 <%def name="app_css()">
@@ -12,3 +15,7 @@
 </%def>
 
 <h1>Wules</h1>
+
+%for r in rule_list:
+    ${r}
+%endfor

@@ -12,7 +12,14 @@ import ott.wules.services.wules as wules
 
 @view_config(route_name='default_index', renderer='index.html')
 def index(request):
-    return {'project': 'Wules'}
+    ret_val = {}
+
+    kw = get_kwargs(request)
+    rules = wules.find(**kw)
+    if rules:
+        ret_val['rules'] = rules
+
+    return ret_val
 
 
 @view_config(route_name='content_ws', renderer='json')
