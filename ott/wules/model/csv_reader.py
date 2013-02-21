@@ -1,8 +1,8 @@
 import os
 import csv
 
-from ott.wules.utils.logger import *
-
+import logging
+log = logging.getLogger(__file__)
 
 class Csv(object):
     csv_file = None
@@ -11,7 +11,7 @@ class Csv(object):
     raw = []
 
     def __init__(self, uri="rules.csv"):
-        log.info('CSV read')
+        log.info('Reading CSV {0}'.format(uri))
         self.assign_uri(uri)
 
     def assign_uri(self, uri):
@@ -26,9 +26,9 @@ class Csv(object):
     def open(self):
         '''
         '''
-        log.info("open rules " + self.csv_file)
+        log.debug("open rules {0}".format(self.csv_file))
         if 'http' in self.csv_file:
-            log.warn('TODO read url for rules...')
+            log.warn('TODO read url for rules...you will now have no rules until implemented')
             pass
         else:
             self.file = open(self.csv_file, 'r')

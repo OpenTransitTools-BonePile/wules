@@ -1,34 +1,35 @@
-import simplejson as json
+import logging
+log = logging.getLogger(__file__)
 
 from ott.wules.model.rule_list import RuleList
 from ott.wules.model.rule import Rule
 
-m_rl = RuleList()
+m_rl = None
+def rule_list():
+    global m_rl
+    if m_rl is None:
+        log.info('Creating a new RulesList object')
+        m_rl = RuleList()
+
+    return m_rl
 
 def find(**kwargs):
+    ''' return 
+    '''
     ret_val = []
 
-    rules = m_rl.find(**kwargs)
+    rules = rule_list().find(**kwargs)
     if rules:
         for r in rules:
             cnt = r.get_content_dict()
             ret_val.append(cnt)
 
-    ret_val = features_to_json(ret_val)
     return ret_val
 
 
 def find_rules(**kwargs):
-    r = m_rl.find(kwargs)
-    j = features_to_json(r[0])
-    return j
-
-
-def features_to_json(obj):
-    ''' convert obj to json string
-    '''
-    json_string = json.dumps(obj, sort_keys=True)
-    return json_string
+    ret_val = rule_list().find(kwargs) | []
+    return ret_val
 
 
 def main():

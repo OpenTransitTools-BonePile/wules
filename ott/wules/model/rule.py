@@ -2,7 +2,9 @@
     The @class Rule() is ...
 '''
 import os
-from ott.wules.utils.logger import *
+import logging
+log = logging.getLogger(__file__)
+
 from ott.wules.utils.parse_datetime import *
 
 
@@ -51,12 +53,12 @@ class Rule():
             ret_val = dict((k.lower().strip(), v.strip()) for k,v in csv.iteritems())
 
             # step 2: assign the csv values to this class as new attributes
-            log.info ("before {0}".format(self.__dict__))
+            log.debug("before {0}".format(self.__dict__))
             self.__dict__.update(ret_val)
-            log.info ("after {0}".format(self.__dict__))
+            log.debug("after {0}".format(self.__dict__))
 
         except:
-            log.info("EXCEPTION: process_csv: csv '{0}' lacks key/values".format(csv))
+            log.debug("EXCEPTION: process_csv: csv '{0}' lacks key/values".format(csv))
 
         return ret_val
 
@@ -70,9 +72,9 @@ class Rule():
             if self.end_time is not None:
                 self.end_time = parse_time(self.end_time)
 
-            log.info("fix_time(): start = '{0}' end = {1}".format(self.start_time, self.end_time))
+            log.debug("fix_time(): start = '{0}' end = {1}".format(self.start_time, self.end_time))
         except:
-            log.info("EXCEPTION: fix_time() ...")
+            log.debug("EXCEPTION: fix_time() ...")
 
 
     def parse_dates(self):
@@ -108,7 +110,7 @@ class Rule():
         rngs=self.parse_range(self.moy, len(self.months_of_year))
         self.process_ranges(rngs, self.months_of_year, True)
 
-        log.info("day of week {0}; days of month {1}; months of year {2}".format(self.days_of_week, self.days_of_month, self.months_of_year))
+        log.debug("day of week {0}; days of month {1}; months of year {2}".format(self.days_of_week, self.days_of_month, self.months_of_year))
 
 
     # TODO: move to int_utility
@@ -122,7 +124,7 @@ class Rule():
                     if i < max:
                         value_list[i] = value
         except:
-            log.info("EXCEPTION: process_ranges({0},{1},{2})".format(ranges, value_list, value))
+            log.debug("EXCEPTION: process_ranges({0},{1},{2})".format(ranges, value_list, value))
 
 
     # TODO: move to int_utility
@@ -152,9 +154,9 @@ class Rule():
             else:
                 ret1 = range(f, f+1)
         except:
-            log.info("EXCEPTION: parse_range: {0}".format(r))
+            log.debug("EXCEPTION: parse_range: {0}".format(r))
 
-        log.info("range: {0} = {1} ... {2}".format(r, ret1, ret2))
+        log.debug("range: {0} = {1} ... {2}".format(r, ret1, ret2))
         return ret1, ret2
 
 
@@ -171,7 +173,7 @@ class Rule():
         if url is not None:
             self.is_valid = True
         else:
-            log.info("check_rules() self.__dict__ = {0}".format(self.__dict__))
+            log.debug("check_rules() self.__dict__ = {0}".format(self.__dict__))
 
         return self.is_valid
 
@@ -183,9 +185,9 @@ class Rule():
         try:
             #ret_val = getattr(self, key)
             ret_val = self.__dict__[key]
-            log.info("{0} == getattr({1}) ?".format(ret_val, key))
+            log.debug("{0} == getattr({1}) ?".format(ret_val, key))
         except:
-            log.info("EXCEPTION: get_value: class doesn't have an element named '{0}'".format(key))
+            log.debug("EXCEPTION: get_value: class doesn't have an element named '{0}'".format(key))
 
         return ret_val
 
@@ -212,10 +214,10 @@ class Rule():
             msg = "has_value: match is {ret_val} given key '{key}' has search value of '{search_value}', and Rule value of '{val}'"
             if regexp != None:
                 msg = msg + ", considering regexp '{regexp}'"
-            log.info(msg.format(**locals()))
+            log.debug(msg.format(**locals()))
 
         except:
-            log.info("EXCEPTION: has_value: class doesn't have an element named '{0}'".format(key))
+            log.debug("EXCEPTION: has_value: class doesn't have an element named '{0}'".format(key))
             ret_val = True # don't filter if the class lacks the element (only limit on value)
 
         return ret_val
@@ -243,7 +245,7 @@ class Rule():
         #self.days_of_month
 
         if fail:
-             log.info("check date")
+             log.debug("check date")
 
         return ret_val
 

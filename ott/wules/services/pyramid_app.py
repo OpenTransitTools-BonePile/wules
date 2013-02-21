@@ -1,6 +1,8 @@
 import os
 import shutil
 import simplejson as json
+import logging
+log = logging.getLogger(__file__)
 
 from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
@@ -9,6 +11,7 @@ from pyramid.view import view_config
 from pyramid.decorator import reify
 
 import ott.wules.services.wules as wules
+import json_utils as json_utils
 
 @view_config(route_name='default_index', renderer='index.html')
 def index(request):
@@ -28,14 +31,16 @@ def rules_content(request):
     import pdb
     pdb.set_trace()
 
-
     '''
+    ret_val = None
+
     kw = get_kwargs(request)
-    ret_val = wules.find(**kw)
-    if ret_val:
-        ret_val = Response(ret_val)
+    rules = wules.find(**kw)
+    if rules:
+        j = json_utils.objects_to_json_string(obj)
+        ret_val = Response(j)
     else:
-        ret_val = json_message()
+        ret_val = json_utils.json_message()
 
     return ret_val
 
@@ -108,8 +113,3 @@ def get_kwargs(request):
         ret_val.update(kwargs)
 
     return ret_val
-
-
-def json_message(msg="Something's wrong...sorry!"):
-    return {'error':True, 'msg':msg}
-

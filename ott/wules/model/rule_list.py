@@ -1,8 +1,10 @@
 '''
 '''
-from ott.wules.utils.logger import *
 from ott.wules.model.csv_reader import Csv
 from ott.wules.model.rule import Rule
+
+import logging
+log = logging.getLogger(__file__)
 
 class RuleList(Csv):
 
@@ -32,7 +34,7 @@ class RuleList(Csv):
         # filter 1: 
         hits = self.rules
         for k,v in kwargs.iteritems():
-            log.info ("%s = %s" % (k, v))
+            log.debug("%s = %s" % (k, v))
             if k == 'time':
                 hits = self.filter_time(hits, v)
             elif k == 'date':
@@ -43,7 +45,7 @@ class RuleList(Csv):
         # max filter
         # (note ... might do a rule priority sort here)
         ret_rules = []
-        log.info("num of hits {0}".format(len(hits)))
+        log.debug("num of hits {0}".format(len(hits)))
         for h in hits:
             if len(ret_rules) >= max_hits: 
                 break

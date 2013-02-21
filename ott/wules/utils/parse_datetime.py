@@ -41,6 +41,8 @@ date_formats_without_year = ['%d %B', '%B %d',
                              '%d %b', '%b %d']
 
 def parse_time(string):
+    '''
+    '''
     string = string.strip()
     if not string: return None
 
@@ -60,8 +62,10 @@ def parse_time(string):
 
     raise ValueError()
 
-    
+
 def parse_date(string):
+    '''
+    '''
     string = string.strip()
     if not string: return None
 
