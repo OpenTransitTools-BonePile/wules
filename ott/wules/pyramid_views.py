@@ -7,6 +7,7 @@ from pyramid.view import view_config
 
 import ott.wules.services.wules as wules
 
+
 def do_view_config(config):
     ''' config the different views...
     '''
@@ -14,16 +15,18 @@ def do_view_config(config):
     config.add_route('rules_list',         '/rules')
     config.add_route('content_ws',         '/content')
 
+
 @view_config(route_name='default_index', renderer='index.html')
 def index(request):
     return {}
+
 
 @view_config(route_name='rules_list', renderer='index.html')
 def rules_list(request):
     ret_val = {}
 
     kw = get_kwargs(request)
-    rules = wules.find(**kw)
+    rules = wules.all_rules(**kw)
     if rules:
         ret_val['rules'] = rules
 
@@ -40,7 +43,7 @@ def rules_content(request):
     ret_val = None
 
     kw = get_kwargs(request)
-    rules = wules.find(**kw)
+    rules = wules.all_rules(**kw)
     if rules:
         ret_val = objects_to_json(rules)
     else:

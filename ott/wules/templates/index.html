@@ -1,3 +1,4 @@
+## -*- coding: utf-8 -*- 
 <%inherit file="base.mako"/>
 <%
     rule_list = [] if rules is UNDEFINED else rules
@@ -13,6 +14,10 @@
 
 <h1>Wules</h1>
 
+<aside id="aside" class="aside">
 %for r in rule_list:
-    ${r}
+    <h2>${r['title']}</h2>
+    <p>${r['content']}</p>
+    <br/>
 %endfor
+</aside>

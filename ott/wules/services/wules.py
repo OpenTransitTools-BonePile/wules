@@ -13,6 +13,35 @@ def rule_list():
 
     return m_rl
 
+
+def all_rules(**kwargs):
+    ''' get all the rules ... just content
+    '''
+    ret_val = []
+
+    rules = rule_list().find(max_hits=30000)
+    if rules:
+        for r in rules:
+            cnt = r.get_content_dict()
+            ret_val.append(cnt)
+
+    return ret_val
+
+
+def all_rules_full(**kwargs):
+    ''' get all the rules ... just content
+    '''
+    ret_val = []
+
+    rules = rule_list().find(max_hits=30000)
+    if rules:
+        for r in rules:
+            cnt = r.get_content_dict()
+            ret_val.append(cnt)
+
+    return ret_val
+
+
 def find(**kwargs):
     ''' return 
     '''

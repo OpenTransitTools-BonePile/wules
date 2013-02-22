@@ -1,7 +1,10 @@
-AGENCY,LANGUAGE,  MODE, DOW,     DOM, MOY,START_TIME,END_TIME,TITLE, CONTENT, URL
+AGENCY ^ LANGUAGE ^ MODE ^ DOW ^ DOM ^ MOY ^ START_TIME ^ END_TIME ^ TITLE ^ CONTENT ^ URL
+
 # English
-TriMet;C-TRAN, en, BUS,  M-F;S;U, 24-5,10-3,,,             TriMet's BUS EN TITLE,TriMet's BUS EN CONTENT,http://a.b.com
-TriMet,        en, RAIL, F;S,     ,,,,                     TriMet's RAIL EN TITLE,"TriMet's TRAIN EN CONTENT",http://a.b.com
-TriMet,        en,     , M;W;F,  5-4,10-8,9pm,      2:30am,TriMet's MODE LESS EN TITLE,"TriMet's MODELESS EN CONTENT", http://a.b.com
+TriMet;C-TRAN ^ en ^ BUS  ^ M-F;S;U  ^ 24-5 ^ 10-3 ^     ^        ^ TriMet's BUS EN TITLE       ^ TriMet's BUS EN CONTENT      ^ http://a.b.com
+TriMet        ^ en ^ RAIL ^ F;S      ^      ^      ^     ^        ^ TriMet's RAIL EN TITLE      ^ TriMet's TRAIN EN CONTENT    ^ http://a.b.com
+TriMet        ^ en ^      ^ M;W;F    ^ 5-4  ^ 10-8 ^ 9pm ^ 2:30am ^ TriMet's MODE LESS EN TITLE ^ TriMet's MODELESS EN CONTENT ^ http://a.b.com
+TriMet        ^ en ^ RAIL ^ M-F      ^ 5-4  ^ 10-8 ^ 9pm ^ 2:30am ^ Taking MAX into town?       ^ Get schedules, travel tips, destination ideas and more. <a href="/schedules/maxredline.htm" onclick="_gaq.push(['_trackEvent', 'Trip Planner Ads', 'ClickTo', '/schedules/maxredline.htm']);">MAX Red line info</a> ^ http://xx.yy.com
+
 # Spanish
-TriMet,        es, RAIL, F;S,     ,,,,        TriMet's RAIL ES TITLE,"TriMet's TRAIN ES CONTENT",http://a.b.com
+TriMet        ^ es ^ RAIL ^ F;S      ^      ^      ^     ^        ^ TriMet's RAIL ES TITLE      ^ TriMet's TRAIN ES CONTENT    ^ http://a.b.com

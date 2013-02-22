@@ -4,15 +4,18 @@ import csv
 import logging
 log = logging.getLogger(__file__)
 
+
 class Csv(object):
     csv_file = None
     reader = None
     file = None
     raw = []
 
+
     def __init__(self, uri="rules.csv"):
         log.info('Reading CSV {0}'.format(uri))
         self.assign_uri(uri)
+
 
     def assign_uri(self, uri):
         '''
@@ -23,6 +26,7 @@ class Csv(object):
             here = os.path.dirname(os.path.abspath(__file__))
             self.csv_file = os.path.join(here, uri) 
 
+
     def open(self):
         '''
         '''
@@ -31,8 +35,8 @@ class Csv(object):
             log.warn('TODO read url for rules...')
             pass
         else:
-            self.file = open(self.csv_file, 'r')
-            self.reader = csv.DictReader(self.file)
+            self.file = open(self.csv_file, 'rb')
+            self.reader = csv.DictReader(self.file, delimiter='^')
 
 
     def close(self):
@@ -41,6 +45,7 @@ class Csv(object):
         if file is not None:
             self.file.close()
             self.file = None
+
 
     def read(self):
         self.raw = []

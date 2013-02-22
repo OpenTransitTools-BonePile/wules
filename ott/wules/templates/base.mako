@@ -16,6 +16,7 @@
     <title>${self.title()}</title>
 
     <link rel="stylesheet" href="/css/common.css"   type="text/css" media="all" />
+    <link rel="stylesheet" href="/css/styles.css"   type="text/css" media="all" />
     ${self.app_css()}
     ${self.header()}
 </head>

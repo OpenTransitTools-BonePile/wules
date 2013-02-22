@@ -58,7 +58,7 @@ class Rule():
             log.debug("after {0}".format(self.__dict__))
 
         except:
-            log.debug("EXCEPTION: process_csv: csv '{0}' lacks key/values".format(csv))
+            log.info("EXCEPTION: process_csv: csv '{0}' lacks key/values".format(csv))
 
         return ret_val
 
@@ -173,7 +173,7 @@ class Rule():
         if url is not None:
             self.is_valid = True
         else:
-            log.debug("check_rules() self.__dict__ = {0}".format(self.__dict__))
+            log.info("check_rules() self.__dict__ = {0}".format(self.__dict__))
 
         return self.is_valid
 
