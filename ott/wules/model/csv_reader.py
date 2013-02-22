@@ -28,7 +28,7 @@ class Csv(object):
         '''
         log.debug("open rules {0}".format(self.csv_file))
         if 'http' in self.csv_file:
-            log.warn('TODO read url for rules...you will now have no rules until implemented')
+            log.warn('TODO read url for rules...')
             pass
         else:
             self.file = open(self.csv_file, 'r')

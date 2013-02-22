@@ -245,7 +245,7 @@ class Rule():
         #self.days_of_month
 
         if fail:
-             log.debug("check date")
+             log.info("check date")
 
         return ret_val
 

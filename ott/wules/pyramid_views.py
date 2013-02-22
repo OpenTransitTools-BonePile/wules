@@ -1,20 +1,25 @@
-import os
-import shutil
 import simplejson as json
 import logging
 log = logging.getLogger(__file__)
 
-from wsgiref.simple_server import make_server
-from pyramid.config import Configurator
 from pyramid.response import Response
 from pyramid.view import view_config
-from pyramid.decorator import reify
 
 import ott.wules.services.wules as wules
-import json_utils as json_utils
+
+def do_view_config(config):
+    ''' config the different views...
+    '''
+    config.add_route('default_index',      '/')
+    config.add_route('rules_list',         '/rules')
+    config.add_route('content_ws',         '/content')
 
 @view_config(route_name='default_index', renderer='index.html')
 def index(request):
+    return {}
+
+@view_config(route_name='rules_list', renderer='index.html')
+def rules_list(request):
     ret_val = {}
 
     kw = get_kwargs(request)
@@ -37,32 +42,11 @@ def rules_content(request):
     kw = get_kwargs(request)
     rules = wules.find(**kw)
     if rules:
-        j = json_utils.objects_to_json_string(obj)
-        ret_val = Response(j)
+        ret_val = objects_to_json(rules)
     else:
-        ret_val = json_utils.json_message()
+        ret_val = json_message()
 
     return ret_val
-
-
-def do_static_config(config):
-    ''' config the static folders
-    '''
-    cache_age=3600
-    config.add_static_view('static', 'static',          cache_max_age=cache_age)
-    config.add_static_view('js',     'static/js',       cache_max_age=cache_age)
-    config.add_static_view('css',    'static/css',      cache_max_age=cache_age)
-    config.add_static_view('images', 'static/images',   cache_max_age=cache_age)
-
-    # important ... allow .html extension on mako templates
-    config.add_renderer(".html", "pyramid.mako_templating.renderer_factory")
-
-
-def do_view_config(config):
-    ''' config the different views...
-    '''
-    config.add_route('default_index',      '/')
-    config.add_route('content_ws',         '/content')
 
 
 def get_first_param(request, name, def_val=None):
@@ -76,8 +60,8 @@ def get_first_param(request, name, def_val=None):
         ret_val = request.params.getone(name)
     except:
         pass
-
     return ret_val
+
 
 def get_header(request, name, def_val=None):
     ''' utility function
@@ -93,12 +77,14 @@ def get_header(request, name, def_val=None):
 
     return ret_val
 
+
 def get_lang(request, def_val='en'):
     ret_val = def_val
     l = get_header(request, '', def_val)
     if l and len(l) >= 2:
         ret_val = l[:2]
     return ret_val
+
 
 def get_kwargs(request):
     ''' turn request args into k/v dictionary
@@ -113,3 +99,17 @@ def get_kwargs(request):
         ret_val.update(kwargs)
 
     return ret_val
+
+
+def json_message(msg="Something's wrong...sorry!"):
+    return objects_to_json({'error':True, 'msg':msg})
+
+
+def objects_to_json(obj, wrap_response=True):
+    ''' convert obj to json string
+    '''
+    ret_val = json.dumps(obj, sort_keys=True)
+    if wrap_response:
+        ret_val = Response(ret_val)
+    return ret_val
+

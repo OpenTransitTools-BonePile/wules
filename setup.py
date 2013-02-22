@@ -49,6 +49,6 @@ setup(
       extras_require=dict(dev=dev_extras),
       entry_points="""\
         [paste.app_factory]
-        main = ott.wules:main
+        main = ott.wules.pyramid_app:main
       """,
       )

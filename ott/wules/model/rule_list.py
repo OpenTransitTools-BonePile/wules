@@ -45,7 +45,7 @@ class RuleList(Csv):
         # max filter
         # (note ... might do a rule priority sort here)
         ret_rules = []
-        log.debug("num of hits {0}".format(len(hits)))
+        log.info("num of hits {0}".format(len(hits)))
         for h in hits:
             if len(ret_rules) >= max_hits: 
                 break
