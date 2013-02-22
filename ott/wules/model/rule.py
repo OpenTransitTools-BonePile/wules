@@ -2,6 +2,7 @@
     The @class Rule() is ...
 '''
 import os
+import urllib2
 import logging
 log = logging.getLogger(__file__)
 
@@ -162,18 +163,33 @@ class Rule():
 
     def check_rule(self):
         ''' check the rule for valid data (like content values), and then assign a validity flag to the Rule object
+            for con
         '''
-        # step 1: make sure we have a valid url parameter (flexible to be named content_url in .csv file)
-        url = self.get_value(Rule.CONTENT)
-        if url is None:
-            url = self.get_value('content_url')
-            self.__dict__[Rule.CONTENT] = url
+        # step 1: make sure we have a valid CONTENT parameter (flexible to be named content_url in .csv file)
+        cnt = self.get_value(Rule.CONTENT)
+        if cnt is None:
+            cnt = self.get_value('content_url')
+            self.__dict__[Rule.CONTENT] = cnt
 
         # step 2: if no url to our content, then our rule is invalid
-        if url is not None:
+        if cnt:
             self.is_valid = True
         else:
             log.info("check_rules() self.__dict__ = {0}".format(self.__dict__))
+
+        # step 3: if this is a url, then grab that content...
+        if cnt and (cnt.startswith('http') or cnt.startswith('/html/')): 
+            self.is_valid = False
+            try:
+                response = urllib2.urlopen(cnt, timeout=5)
+                html = response.read().decode('utf-8')
+                if html and len(html) > 10:
+                    self.__dict__[Rule.CONTENT] = html
+                    self.is_valid = True
+            except:
+                log.info("Couldn't download rule content {0}".format(cnt))
+                log.info("If you're content is localized with special characters, my first guess is there's a utf-8 issue with your file.")
+
 
         return self.is_valid
 

@@ -4,6 +4,7 @@ log = logging.getLogger(__file__)
 from ott.wules.model.rule_list import RuleList
 from ott.wules.model.rule import Rule
 
+
 m_rl = None
 def rule_list():
     global m_rl
