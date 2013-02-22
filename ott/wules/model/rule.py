@@ -190,7 +190,6 @@ class Rule():
                 log.info("Couldn't download rule content {0}".format(cnt))
                 log.info("If you're content is localized with special characters, my first guess is there's a utf-8 issue with your file.")
 
-
         return self.is_valid
 
 
@@ -210,7 +209,7 @@ class Rule():
 
     def has_value(self, key, search_value, regexp=None):
         ''' 
-            return true if the key exists in this class,  
+            return true if the key exists in this class,
             and it's a string, and it's value matches
         '''
         ret_val = False

@@ -69,6 +69,5 @@ def main():
     #for z in r.find(
     #    print "RESULT: {0}".format(z.__dict__)
 
-
 if __name__ == '__main__':
     main()
