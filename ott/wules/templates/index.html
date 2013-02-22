@@ -2,6 +2,7 @@
 <%inherit file="base.mako"/>
 <%
     rule_list = [] if rules is UNDEFINED else rules
+    #rule_list.append({'title':'<a href="hi">yo</a>', 'content':'<h2>yo yo</h2>'})
 %>
 <%def name="title()">Wules Info</%def>
 <%def name="app_css()">
@@ -16,8 +17,7 @@
 
 <aside id="aside" class="aside">
 %for r in rule_list:
-    <h2>${r['title']}</h2>
-    <p>${r['content']}</p>
+    ${r['content'] | n}
     <br/>
 %endfor
 </aside>

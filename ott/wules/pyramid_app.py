@@ -26,6 +26,7 @@ def do_static_config(config):
     '''
     cache_age=3600
     config.add_static_view('static', 'static',          cache_max_age=cache_age)
+    config.add_static_view('html',   'static',          cache_max_age=cache_age)
     config.add_static_view('js',     'static/js',       cache_max_age=cache_age)
     config.add_static_view('css',    'static/css',      cache_max_age=cache_age)
     config.add_static_view('images', 'static/images',   cache_max_age=cache_age)

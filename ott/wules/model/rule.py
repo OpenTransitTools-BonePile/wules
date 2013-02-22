@@ -113,7 +113,7 @@ class Rule():
         log.debug("day of week {0}; days of month {1}; months of year {2}".format(self.days_of_week, self.days_of_month, self.months_of_year))
 
 
-    # TODO: move to int_utility
+    # TODO: move to int_utility  
     def process_ranges(self, ranges, value_list, value):
         ''' given a list of ranges, each of which are ranges of indexes into the value_list, assign the value
         '''
@@ -161,13 +161,13 @@ class Rule():
 
 
     def check_rule(self):
-        ''' check the rule for valid data (like url values), and then assign a validity flag to the Rule object
+        ''' check the rule for valid data (like content values), and then assign a validity flag to the Rule object
         '''
         # step 1: make sure we have a valid url parameter (flexible to be named content_url in .csv file)
-        url = self.get_value(Rule.URL)
+        url = self.get_value(Rule.CONTENT)
         if url is None:
             url = self.get_value('content_url')
-            self.__dict__[Rule.URL] = url
+            self.__dict__[Rule.CONTENT] = url
 
         # step 2: if no url to our content, then our rule is invalid
         if url is not None:
@@ -256,8 +256,10 @@ class Rule():
         ret_val = True
         return ret_val
 
+
     def get_attribute(self, key):
         return ret_val
+
 
     def get_content_dict(self, cnt_keys=None):
         ''' return dict of printable rule content
@@ -266,10 +268,11 @@ class Rule():
 
         if cnt_keys == None:
             cnt_keys = [self.URL, self.TITLE, self.CONTENT]
-        
+
         for k in cnt_keys:
             v = self.get_value(k)
             if v:
                 ret_val[k] = v
+
         return ret_val
 
