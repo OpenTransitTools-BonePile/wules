@@ -56,6 +56,8 @@ class Csv(object):
         return self.raw
 
 
+
+
 def main():
     c = Csv()
     c.open()

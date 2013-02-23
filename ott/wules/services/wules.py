@@ -11,6 +11,8 @@ def rule_list():
     if m_rl is None:
         log.info('Creating a new RulesList object')
         m_rl = RuleList()
+    else:
+        m_rl.refresh_rules_check()
 
     return m_rl
 
