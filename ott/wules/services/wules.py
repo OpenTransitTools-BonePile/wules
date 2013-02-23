@@ -12,7 +12,7 @@ def rule_list():
         log.info('Creating a new RulesList object')
         m_rl = RuleList()
     else:
-        m_rl.refresh_rules_check()
+        m_rl.timed_refresh_check()
 
     return m_rl
 
