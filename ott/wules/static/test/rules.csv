@@ -1,0 +1,10 @@
+AGENCY ^ LANGUAGE ^ MODE ^ DOW ^ DOM ^ MOY ^ START_TIME ^ END_TIME ^ CONTENT
+# English
+TriMet;C-TRAN ^ en ^ BUS  ^ M-F;S;U  ^ 24-5 ^ 10-3 ^     ^        ^ <h2>TriMet's BUS EN TITLE</h2><p>TriMet's  BUS  EN CONTENT</p>
+TriMet        ^ en ^ RAIL ^ F;S      ^      ^      ^     ^        ^ <h2>TriMet's RAIL EN TITLE</h2><p>TriMet's RAIL EN CONTENT</p>
+TriMet        ^ en ^ RAIL ^ M-F      ^ 5-4  ^ 10-8 ^ 9pm ^ 2:30am ^ <h2>Taking MAX into town?</h2><p>Get schedules, travel tips, destination ideas and more. <a href="http://trimet.org/schedules/maxredline.htm" onclick="_gaq.push(['_trackEvent', 'Trip Planner Ads', 'ClickTo', '/schedules/maxredline.htm']);">MAX Red line info</a></p>
+TriMet        ^ en ^      ^ M;W;F    ^ 5-4  ^ 10-8 ^ 9pm ^ 2:30am ^ http://127.0.0.1:32223/html/test/english_ad.html
+# Spanish
+TriMet        ^ es ^ RAIL ^ F;S      ^      ^      ^     ^        ^ <h2>TriMet's RAIL ES TITLE</h2><p>TriMet's RAIL ES CONTENT</p>
+TriMet        ^ es ^      ^ M;W;F    ^      ^      ^     ^        ^ http://127.0.0.1:32223/html/test/spanish_ad.html
+TriMet        ^ es ^      ^ M-F;S;U  ^      ^      ^     ^        ^ 
