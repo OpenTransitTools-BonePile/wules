@@ -64,12 +64,15 @@ class Csv(object):
         return ret_val
 
 
-    def timed_refresh_check(self, n_minutes=15):
+    def timed_refresh_check(self, n_minutes):
         ''' will check for new rules every N minutes (via the 'update_rules()' method), and
             trigger reloading of those rules if we've exceeded the n_minute time slice
             @todo: might we thread the rule refresh if we're pulling rules via the web???
         '''
         ret_val = False
+
+        if n_minutes is None or n_minutes < 0:
+            n_minutes = 15
 
         n_minutes_ago = datetime.datetime.now() - datetime.timedelta(minutes=n_minutes)
         if self.last_check is None or self.last_check < n_minutes_ago:

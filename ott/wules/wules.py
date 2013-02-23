@@ -1,9 +1,10 @@
-import logging
-log = logging.getLogger(__file__)
-
 import ott.wules.utils.config as config
 from ott.wules.model.rule_list import RuleList
 from ott.wules.model.rule import Rule
+
+import logging
+log = logging.getLogger()
+
 
 m_rl = None
 def rule_list():
@@ -14,9 +15,10 @@ def rule_list():
         if uri:
             m_rl = RuleList(uri)
         else:
-            m_rl = RuleList()
+            log.warn("ERROR: You don't have a csv_url defined in wules.ini pointing to a .csv file")
     else:
-        m_rl.timed_refresh_check()
+        min = config.get_int('rule_refresh_time')
+        m_rl.timed_refresh_check(min)
 
     return m_rl
 
@@ -75,6 +77,7 @@ def main():
     #for z in r.find(
     #    print "RESULT: {0}".format(z.__dict__)
     print f
+    print "NOTE: you might not see all the rules because of Thread() timing used to retrieve the rules."
 
 if __name__ == '__main__':
     main()

@@ -9,13 +9,13 @@ from ott.wules.model.rule import Rule
 
 class RuleList(Csv):
 
-    def __init__(self, uri="ott/static/test/rules.csv"):
+    def __init__(self, uri):
         '''
         '''
         super(Csv,self).__init__()
         self.assign_uri(uri)
         self.rules = []
-        self.timed_refresh_check()
+        self.timed_refresh_check(0)
 
 
     def find(self, **kwargs):

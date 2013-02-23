@@ -1,7 +1,8 @@
 from ConfigParser import SafeConfigParser
 import glob
 import logging
-log = logging.getLogger(__file__)
+log = logging.getLogger()
+
 
 
 parser = None
@@ -15,6 +16,7 @@ def get_parser():
         if parser is None:
             parser = SafeConfigParser()
             found = parser.read(candidates)
+            logging.config.fileConfig(found)
     except:
         log.info("Couldn't find an acceptable ini file from {0}...".format(candidates))
 
@@ -34,3 +36,18 @@ def get(id, section='wules', def_val=None):
         log.info("Couldn't find '{0}' in config under section '{1}'".format(id, section))
 
     return ret_val
+
+
+def get_int(id, section='wules', def_val=None):
+    ''' get config value as int (or go with def_val)
+    '''
+    ret_val = def_val
+    try:
+        v = get(id, section, def_val)
+        if v:
+            ret_val = int(v)
+    except:
+        log.info("Couldn't find '{0}' in config under section '{1}'".format(id, section))
+
+    return ret_val
+
