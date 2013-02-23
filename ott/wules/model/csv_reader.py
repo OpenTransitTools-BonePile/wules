@@ -37,7 +37,7 @@ class Csv(object):
         '''
         log.debug("open rules {0}".format(self.csv_uri))
         if 'http' in self.csv_uri:
-            data = urllib.urlretrieve(self.csv_uri)
+            data = urllib.urlopen(self.csv_uri)
         else:
             data = open(self.csv_uri, 'rb')
             self.file = data

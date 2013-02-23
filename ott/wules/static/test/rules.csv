@@ -7,3 +7,4 @@ TriMet        ^ en ^      ^ M;W;F    ^ 5-4  ^ 10-8 ^ 9pm ^ 2:30am ^ http://127.0
 # Spanish
 TriMet        ^ es ^ RAIL ^ F;S      ^      ^      ^     ^        ^ <h2>TriMet's RAIL ES TITLE</h2><p>TriMet's RAIL ES CONTENT</p>
 TriMet        ^ es ^      ^ M;W;F    ^ 5-4  ^ 10-8 ^ 9pm ^ 2:30am ^ http://127.0.0.1:32223/html/test/spanish_ad.html
+TriMet        ^ es ^      ^ M;W;F    ^ 5-4  ^ 10-8 ^ 9pm ^ 2:30am ^ <h2>｡･ω･｡ ¡Deténgase! ｡･ω･｡</h2><p>｡･ω･｡ Unicode Strings in the CSV file ｡･ω･｡ </p>

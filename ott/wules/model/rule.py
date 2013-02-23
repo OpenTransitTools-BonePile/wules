@@ -41,7 +41,11 @@ class Rule():
             self.parse_time()
             self.parse_dates()
 
-            # step 3: validate this Rule object
+
+            # step 3: make sure our content is well formed / utf-8 ... and if a url pulled into the mix...
+            self.process_content()
+
+            # step 4: validate this Rule object
             self.check_rule()
 
 
@@ -163,7 +167,22 @@ class Rule():
 
     def check_rule(self):
         ''' check the rule for valid data (like content values), and then assign a validity flag to the Rule object
-            for con
+        '''
+        self.is_valid = True
+
+        # step 1: check that content exists
+        if self.get_value(Rule.CONTENT) is None:
+            self.is_valid = False
+
+        # step N: if we're invalid, log info on this rule...
+        if self.is_valid is False:
+            log.info("check_rule() self.__dict__ = {0}".format(self.__dict__))
+
+        return self.is_valid 
+
+
+    def process_content(self):
+        ''' make sure our content is well formed / utf-8 ... and if a url pulled into the mix...
         '''
         # step 1: make sure we have a valid CONTENT parameter (flexible to be named content_url in .csv file)
         cnt = self.get_value(Rule.CONTENT)
@@ -171,24 +190,24 @@ class Rule():
             cnt = self.get_value('content_url')
             self.__dict__[Rule.CONTENT] = cnt
 
-        # step 2: if no url to our content, then our rule is invalid
+        # step 2: if this is a url, then grab that content...
         if cnt:
-            self.is_valid = True
-        else:
-            log.info("check_rules() self.__dict__ = {0}".format(self.__dict__))
+            if cnt.startswith('http') or cnt.startswith('/html/'): 
+                self.is_valid = False
+                try:
+                    response = urllib2.urlopen(cnt, timeout=5)
+                    html = response.read()
+                    if html and len(html) > 10:
+                        self.__dict__[Rule.CONTENT] = html
+                        self.is_valid = True
+                        cnt = html
+                except:
+                    log.info("Couldn't download rule content {0}".format(cnt))
+                    log.info("If you're content is localized with special characters, my first guess is there's a utf-8 issue with your file.")
 
-        # step 3: if this is a url, then grab that content...
-        if cnt and (cnt.startswith('http') or cnt.startswith('/html/')): 
-            self.is_valid = False
-            try:
-                response = urllib2.urlopen(cnt, timeout=5)
-                html = response.read().decode('utf-8')
-                if html and len(html) > 10:
-                    self.__dict__[Rule.CONTENT] = html
-                    self.is_valid = True
-            except:
-                log.info("Couldn't download rule content {0}".format(cnt))
-                log.info("If you're content is localized with special characters, my first guess is there's a utf-8 issue with your file.")
+        # step 3: do the utf-8 decode magic to the content string...
+        if cnt:
+            self.__dict__[Rule.CONTENT] = cnt.decode('utf-8')
 
         return self.is_valid
 
