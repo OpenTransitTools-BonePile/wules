@@ -5,7 +5,7 @@ log = logging.getLogger(__file__)
 from pyramid.response import Response
 from pyramid.view import view_config
 
-import ott.wules.services.wules as wules
+import ott.wules.wules as wules
 
 
 def do_view_config(config):
