@@ -9,7 +9,7 @@ from ott.wules.model.rule import Rule
 
 class RuleList(Csv):
 
-    def __init__(self, uri="rules.csv"):
+    def __init__(self, uri="ott/static/test/rules.csv"):
         '''
         '''
         super(Csv,self).__init__()

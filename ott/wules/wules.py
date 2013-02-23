@@ -10,9 +10,9 @@ def rule_list():
     global m_rl
     if m_rl is None:
         log.info('Creating a new RulesList object')
-        url = config.get('url')
-        if url:
-            m_rl = RuleList(url)
+        uri = config.get('csv_uri')
+        if uri:
+            m_rl = RuleList(uri)
         else:
             m_rl = RuleList()
     else:
@@ -69,11 +69,12 @@ def find_rules(**kwargs):
 
 
 def main():
-    f = find(agency='TriMet',language='en', mode='RAIL')
-    print f
+    f = all_rules_full()
+    # find(agency='TriMet',language='en', mode='RAIL')
     #for z in r.find(5, agency='TriMet', mode='RAIL', language='en', time='5:30pm'):
     #for z in r.find(
     #    print "RESULT: {0}".format(z.__dict__)
+    print f
 
 if __name__ == '__main__':
     main()
