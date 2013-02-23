@@ -1,16 +1,20 @@
 import logging
 log = logging.getLogger(__file__)
 
+import ott.wules.utils.config as config
 from ott.wules.model.rule_list import RuleList
 from ott.wules.model.rule import Rule
-
 
 m_rl = None
 def rule_list():
     global m_rl
     if m_rl is None:
         log.info('Creating a new RulesList object')
-        m_rl = RuleList()
+        url = config.get('url')
+        if url:
+            m_rl = RuleList(url)
+        else:
+            m_rl = RuleList()
     else:
         m_rl.timed_refresh_check()
 

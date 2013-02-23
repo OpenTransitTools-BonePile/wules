@@ -2,6 +2,7 @@ import os
 import csv
 import datetime
 import time
+import urllib
 from threading import Thread
 
 import logging
@@ -9,14 +10,14 @@ log = logging.getLogger(__file__)
 
 
 class Csv(object):
-    csv_file = None
-    reader = None
+    csv_uri = None
     file = None
+    reader = None
     raw_data = []
     last_update = None
     last_check = None
 
-    def __init__(self, uri="rules.csv"):
+    def __init__(self, uri):
         log.info('Reading CSV {0}'.format(uri))
         self.assign_uri(uri)
 
@@ -25,28 +26,31 @@ class Csv(object):
         '''
         '''
         if '/' in uri or '\\' in uri:
-            self.csv_file = uri
+            self.csv_uri = uri
         else:
             here = os.path.dirname(os.path.abspath(__file__))
-            self.csv_file = os.path.join(here, uri) 
+            self.csv_uri = os.path.join(here, uri) 
 
 
     def open(self):
         '''
         '''
-        log.debug("open rules {0}".format(self.csv_file))
-        if 'http' in self.csv_file:
-            log.warn('TODO read url for rules...')
-            pass
+        log.debug("open rules {0}".format(self.csv_uri))
+        if 'http' in self.csv_uri:
+            data = urllib.urlretrieve(self.csv_uri)
         else:
-            self.file = open(self.csv_file, 'rb')
-            self.reader = csv.DictReader(self.file, delimiter='^')
+            data = open(self.csv_uri, 'rb')
+            self.file = data
 
+        import pdb
+        #pdb.set_trace()
+
+        self.reader = csv.DictReader(data, delimiter='^')
 
     def close(self):
         '''
         '''
-        if file is not None:
+        if self.file:
             self.file.close()
             self.file = None
 
@@ -81,8 +85,6 @@ class Csv(object):
     def new_data_check(self):
         ''' open/download CSV of rules, and compare it existing rules 
             @return: True indicating that new data was reloaded...
-        import pdb
-        #pdb.set_trace()
         '''
         ret_val = False
 
