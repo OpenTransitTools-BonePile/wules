@@ -13,6 +13,7 @@ def do_view_config(config):
     '''
     config.add_route('default_index',      '/')
     config.add_route('rules_list',         '/rules')
+    config.add_route('filter_ws',          '/filter')
     config.add_route('content_ws',         '/content')
 
 
@@ -27,6 +28,18 @@ def rules_list(request):
 
     kw = get_kwargs(request)
     rules = wules.all_rules(**kw)
+    if rules:
+        ret_val['rules'] = rules
+
+    return ret_val
+
+
+@view_config(route_name='filter_ws', renderer='filter.html')
+def filter_ws(request):
+    ret_val = {}
+
+    kw = get_kwargs(request)
+    rules = wules.find(**kw)
     if rules:
         ret_val['rules'] = rules
 

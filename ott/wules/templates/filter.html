@@ -1,0 +1,23 @@
+## -*- coding: utf-8 -*- 
+<%inherit file="base.mako"/>
+<%
+    rule_list = [] if rules is UNDEFINED else rules
+    #rule_list.append({'title':'<a href="hi">yo</a>', 'content':'<h2>yo yo</h2>'})
+%>
+<%def name="title()">Wules Info</%def>
+<%def name="app_css()">
+    <link rel="stylesheet" href="/css/stopsstations.css" type="text/css" />
+</%def>
+<%def name="meta_data()">
+    <meta name="Keywords"    content="CarShare, Zipcar, car2go, map"/>
+    <meta name="Description" content="Show CarShare on a map, baby..."/>
+</%def>
+
+<h1>Wules</h1>
+
+<aside id="aside" class="aside">
+%for r in rule_list:
+    ${r['content'] | n}
+    <br/>
+%endfor
+</aside>
