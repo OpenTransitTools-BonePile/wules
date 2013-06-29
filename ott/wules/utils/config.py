@@ -29,7 +29,7 @@ def get(id, section='wules', def_val=None):
     ret_val = def_val
     try:
         if get_parser():
-            ret_val = get_parser().get('wules', id)
+            ret_val = get_parser().get(section, id)
             if ret_val is None:
                 ret_val = def_val
     except:
