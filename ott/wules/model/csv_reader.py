@@ -42,8 +42,7 @@ class Csv(object):
             data = open(self.csv_uri, 'rb')
             self.file = data
 
-        import pdb
-        #pdb.set_trace()
+        #import pdb; pdb.set_trace()
 
         self.reader = csv.DictReader(data, delimiter='^')
 
