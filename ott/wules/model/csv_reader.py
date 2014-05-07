@@ -3,6 +3,7 @@ import csv
 import datetime
 import time
 import urllib
+import contextlib
 from threading import Thread
 
 import logging
@@ -37,7 +38,14 @@ class Csv(object):
         '''
         log.debug("open rules {0}".format(self.csv_uri))
         if 'http' in self.csv_uri:
+            '''
+            TODO: this ....
+            with contextlib.closing(urllib.urlopen(url)) as stream:
+                otp = stream.read()
+                ret_val = json.loads(otp)
+            '''
             data = urllib.urlopen(self.csv_uri)
+
         else:
             data = open(self.csv_uri, 'rb')
             self.file = data
